@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center">
+
+    <!-- Include other widget or layout tags here. These are considered
+            "child views" or "children" of the linear layout -->
+
+    <TextView
+        android:id="@+id/important_text_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="আমি নুসরাতকে ভালবাসি" />
+
+    <Button
+        android:id="@+id/start_button_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/start_button"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        tools:textAllCaps="false"/>
+    <Button
+        android:id="@+id/end_button_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/end_button"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        tools:textAllCaps="false"/>
+    <Button
+        android:id="@+id/this_month_button_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/this_month_button"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        tools:textAllCaps="false"/>
+    <Button
+        android:id="@+id/all_month_button_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/all_month_button"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        tools:textAllCaps="false"/>
+</LinearLayout>

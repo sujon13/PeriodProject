@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Period Project</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="start_button">আপনার পিরিয়ড শুরু হয়েছে ? ক্লিক করুন</string>
+    <string name="end_button">আপনার পিরিয়ড শেষ হয়েছে ? ক্লিক করুন</string>
+    <string name="this_month_button">এই মাসের তথ্য  দেখুন </string>
+    <string name="all_month_button">পূর্ববর্তী মাসসমূহের তথ্য দেখুন</string>
+    <string name="title_activity_this_month">ThisMonth</string>
+
+</resources>
