@@ -5,18 +5,25 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
+import com.example.sujon4002.periodproject.create_data.InitialInfoCreateListener;
+import com.example.sujon4002.periodproject.create_data.InitialInfoFragment;
 import com.example.sujon4002.periodproject.create_data.PeriodData;
+import com.example.sujon4002.periodproject.model.Config;
 import com.example.sujon4002.periodproject.model.DatabaseQueryClass;
 import com.example.sujon4002.periodproject.show_data.ThisMonth;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements InitialInfoCreateListener {
 
     private Button startButton;
     private Button endButton;
@@ -25,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private String startDate;
     private String endDate;
     private String description;
-
 
 
     int year;
@@ -39,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        isInitialDialogNeeded();
+
 
         startButton = findViewById(R.id.start_button_id);
         endButton = findViewById(R.id.end_button_id);
@@ -103,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ThisMonth.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("info", Config.InitialInfo);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -180,6 +192,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+    public void onInitialInfoCreated(String info)
+    {
+        Config.InitialInfo = info;
+    }
+    public void showInitialDialog()
+    {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        InitialInfoFragment initialInfoFragment = InitialInfoFragment.newInstance("Some Title", MainActivity.this);
+        initialInfoFragment.show(fragmentManager, "fragment_initial_info");
+    }
+    public void isInitialDialogNeeded()
+    {
+        DatabaseQueryClass databaseQueryClass = new DatabaseQueryClass(getApplicationContext());
+        List<PeriodData>periodDataList = new ArrayList<>();
+        periodDataList = databaseQueryClass.getAllPeriodInformation();
+        if(periodDataList.isEmpty() && Config.InitialInfo.equals("oh no"))showInitialDialog();
+        else{
+            Toast.makeText(this, "111", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

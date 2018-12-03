@@ -13,6 +13,6 @@ public class Config {
 
     //others for general purpose key-value pair data
     public static final String TITLE = "title";
-
+    public static String InitialInfo = "oh no";
     public static final String CREATE_PERIOD_INFORMATION = "create_period_information";
 }

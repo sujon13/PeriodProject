@@ -7,7 +7,13 @@
     <string name="end_button">আপনার পিরিয়ড শেষ হয়েছে ? ক্লিক করুন</string>
     <string name="this_month_button">এই মাসের তথ্য  দেখুন </string>
     <string name="all_month_button">পূর্ববর্তী মাসসমূহের তথ্য দেখুন</string>
-    
     <string name="title_activity_this_month">ThisMonth</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="initial_period_duration">সাধারণত আপনার পিরিয়ড কতদিন থাকে ?</string>
+    <string name="initial_period_cycle_duration">সাধারণত আপনার ঋতুচক্র কতদিনের ?</string>
+    <string name="clarification">আপনার দেয়া এই তথ্যের জন্য ধন্যবাদ </string>
+
 
 </resources>
