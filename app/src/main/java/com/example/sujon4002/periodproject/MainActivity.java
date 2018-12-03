@@ -61,16 +61,39 @@ public class MainActivity extends AppCompatActivity implements InitialInfoCreate
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                final long relativeTimeOfCurrentDate = year*365+month*30+dayOfMonth;
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                if(relativeTimeOfStartDate == -1)
+                                {
 
-                                relativeTimeOfStartDate = year*365+month*30+day;
-                                startDate = String.valueOf(day)+"-"+String.valueOf(month)+
-                                        "-"+String.valueOf(year);
-                                writingStartDateIntoDatabase();
+                                    relativeTimeOfStartDate = year*365+month*30+day;
+                                    long relativeTimeOfLastEndDate = findingRelativeTimeOfLastEndDate();
+                                    if(relativeTimeOfStartDate > relativeTimeOfCurrentDate)
+                                    {
+                                        relativeTimeOfStartDate = -1;
+                                        String message = "Future date can not be selected as start date";
+                                        showAlertDialog(message);
+                                    }
+                                    else if(relativeTimeOfLastEndDate < relativeTimeOfStartDate)
+                                    {
+                                        startDate = String.valueOf(day)+"-"+String.valueOf(month)+
+                                                "-"+String.valueOf(year);
+                                        writingStartDateIntoDatabase();
+                                    }
+                                    else{
+                                        relativeTimeOfStartDate = -1;
+                                        String message = "start date must be selected after last time's end date";
+                                        showAlertDialog(message);
+                                    }
+                                }
+                                else {
+                                    String message = "start date is already selected";
+                                    showAlertDialog(message);
+                                }
                             }
                         },year, month, dayOfMonth);
                 datePickerDialog.show();
@@ -83,22 +106,30 @@ public class MainActivity extends AppCompatActivity implements InitialInfoCreate
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                final long relativeTimeOfCurrentDate = year*365+month*30+dayOfMonth;
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                 relativeTimeOfEndDate = year*365+month*30+day;
-                                if( (relativeTimeOfEndDate > relativeTimeOfStartDate)&& relativeTimeOfStartDate>-1)
+                                if(relativeTimeOfEndDate > relativeTimeOfCurrentDate)
                                 {
-                                    endDate = String.valueOf(day)+"-"+String.valueOf(month)+
-                                            "-"+String.valueOf(year);
-                                    writingEndDateIntoDatabase();
+                                    relativeTimeOfEndDate = -1;
+                                    String message = "Future date can not be selected as end date";
+                                    showAlertDialog(message);
                                 }
                                 else if(relativeTimeOfStartDate == -1)
                                 {
+                                    relativeTimeOfEndDate = -1;
                                     String message = "start date is not selected";
                                     showAlertDialog(message);
+                                }
+                                else if( relativeTimeOfEndDate > relativeTimeOfStartDate) {
+                                    Toast.makeText(MainActivity.this, "a " + relativeTimeOfStartDate, Toast.LENGTH_LONG).show();
+                                    endDate = String.valueOf(day) + "-" + String.valueOf(month) +
+                                            "-" + String.valueOf(year);
+                                    writingEndDateIntoDatabase();
                                 }
                                 else{
                                     showAlertDialog();
@@ -125,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements InitialInfoCreate
     public void writingStartDateIntoDatabase()
     {
 
-        endDate = "input is not given yet";
+        endDate = "0-0-0";
         //if(endDate=="")endDate=null;
         //registrationNumber = Integer.parseInt(registrationEditText.getText().toString());
         //description = descriptionEditText.getText().toString();
@@ -212,6 +243,31 @@ public class MainActivity extends AppCompatActivity implements InitialInfoCreate
         else{
             Toast.makeText(this, "111", Toast.LENGTH_LONG).show();
         }
+    }
+    long findingRelativeTimeOfLastEndDate()
+    {
+        DatabaseQueryClass databaseQueryClass = new DatabaseQueryClass(getApplicationContext());
+        List<PeriodData>periodDataList = new ArrayList<>();
+        periodDataList = databaseQueryClass.getAllPeriodInformation();
+        if(periodDataList==null)
+        {
+
+            Toast.makeText(this, "reza", Toast.LENGTH_LONG).show();
+            return -1;
+        }
+        int sizeOfList = periodDataList.size();
+        if(sizeOfList==0)return -1;
+
+        String lastEndDate = periodDataList.get(sizeOfList-1).getEndDate();
+        Toast.makeText(this, lastEndDate+222, Toast.LENGTH_LONG).show();
+        String[] arrayOfLastEndDate = lastEndDate.split("-");
+        int day = Integer.parseInt(arrayOfLastEndDate[0]);
+        int month = Integer.parseInt(arrayOfLastEndDate[1]);
+        int year =Integer.parseInt(arrayOfLastEndDate[2]);
+        return (year*365+month*30+day);
+
+
+
     }
 
 }
